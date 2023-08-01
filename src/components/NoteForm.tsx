@@ -16,7 +16,7 @@ export const NoteForm = ({ onSubmit }: NoteFromProps) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSubmit({
-      tittle: tittleRef.current!.value,
+      title: tittleRef.current!.value,
       markdown: markdownRef.current!.value,
       tags: [],
     });
