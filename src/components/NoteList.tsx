@@ -116,7 +116,7 @@ const NoteCard = ({ id, title, tags }: NoteSimplified) => {
             >
               {tags.map((tag) => (
                 <Badge className="text-truncate" key={tag.id}>
-                  {tag.label}{" "}
+                  {tag.label}
                 </Badge>
               ))}
             </Stack>
