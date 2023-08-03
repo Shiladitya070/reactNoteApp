@@ -9,6 +9,8 @@ import EditTagsModal from "./EditTagsModal";
 type NoteListProps = {
   availableTags: Tag[];
   notes: NoteSimplified[];
+  deleteTag: (id: string) => void;
+  updateTag: (id: string, label: string) => void;
 };
 type NoteSimplified = {
   tags: Tag[];
@@ -16,8 +18,14 @@ type NoteSimplified = {
   id: string;
 };
 
-const NoteList = ({ availableTags, notes }: NoteListProps) => {
+const NoteList = ({
+  availableTags,
+  notes,
+  updateTag,
+  deleteTag,
+}: NoteListProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
   const filterNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -42,7 +50,9 @@ const NoteList = ({ availableTags, notes }: NoteListProps) => {
             <Link to="/new">
               <Button variant="primary">Create</Button>
             </Link>
-            <Button variant="outline-secondary">Edit Tags</Button>
+            <Button onClick={() => setShow(true)} variant="outline-secondary">
+              Edit Tags
+            </Button>
           </Stack>
         </Col>
       </Row>
@@ -91,7 +101,13 @@ const NoteList = ({ availableTags, notes }: NoteListProps) => {
         ))}
       </Row>
 
-      <EditTagsModal />
+      <EditTagsModal
+        show={show}
+        setShow={setShow}
+        availableTags={availableTags}
+        deleteTag={deleteTag}
+        updateTag={updateTag}
+      />
     </>
   );
 };
