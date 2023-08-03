@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Tag } from "../App";
 import style from "./NoteList.module.css";
+import EditTagsModal from "./EditTagsModal";
 
 type NoteListProps = {
   availableTags: Tag[];
@@ -89,6 +90,8 @@ const NoteList = ({ availableTags, notes }: NoteListProps) => {
           </Col>
         ))}
       </Row>
+
+      <EditTagsModal />
     </>
   );
 };

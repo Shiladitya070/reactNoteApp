@@ -8,6 +8,7 @@ import { v4 as uuidV4 } from "uuid";
 import NoteList from "./components/NoteList";
 import NoteLayout from "./components/NoteLayout";
 import ShowNote from "./components/ShowNote";
+import EditNote from "./components/EditNote";
 
 export type Note = {
   id: string;
@@ -58,6 +59,24 @@ function App() {
     setTags((prev) => [...prev, tag]);
   };
 
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (note.id === id) {
+          return { ...note, ...data, tagIds: tags.map((tag) => tag.id) };
+        } else {
+          return note;
+        }
+      });
+    });
+  };
+
+  const onDeleteNote = (id: string) => {
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note) => note.id !== id);
+    });
+  };
+
   return (
     <Container className="my-4">
       <Routes>
@@ -76,8 +95,17 @@ function App() {
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<ShowNote />} />
-          <Route path="edit" element={<h1>edit</h1>} />
+          <Route index element={<ShowNote onDelete={onDeleteNote} />} />
+          <Route
+            path="edit"
+            element={
+              <EditNote
+                onSubmit={onUpdateNote}
+                onAddTag={addTag}
+                availableTags={tags}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<h1>Not found 404 </h1>} />
       </Routes>
